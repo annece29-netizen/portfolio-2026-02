@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Assistants Communication — Anne-Cécile Le Dain</title>
+  <meta name="description" content="Étude de cas : création d'assistants ChatGPT personnalisés pour une équipe communication." />
+  <link rel="stylesheet" href="../style.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+</head>
+<body>
+
+  <!-- ===== NAVIGATION ===== -->
+  <nav aria-label="Navigation principale">
+    <a href="../index.html" class="nav-logo">Anne-Cécile <span>Le Dain</span></a>
+    <ul class="nav-links" role="list">
+      <li><a href="../index.html#a-propos">À propos</a></li>
+      <li><a href="../index.html#competences">Compétences</a></li>
+      <li><a href="../index.html#projets">Projets</a></li>
+      <li><a href="../index.html#contact">Contact</a></li>
+    </ul>
+    <button class="nav-toggle" aria-label="Ouvrir le menu" aria-expanded="false">
+      <span></span><span></span><span></span>
+    </button>
+  </nav>
+
+  <!-- ===== CONTENU ===== -->
+  <main class="container projet-page">
+
+    <!-- Retour -->
+    <a href="../index.html#projets" class="retour">
+      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M10.5 19.5L3 12m0 0l7.5-7.5M3 12h18" />
+      </svg>
+      Retour au portfolio
+    </a>
+
+    <!-- Hero du projet -->
+    <div class="projet-hero">
+      <div class="projet-hero-meta">
+        <span class="tag-statut tag-realise">● Réalisé</span>
+        <span class="label">ChatGPT · Prompt engineering · Communication</span>
+      </div>
+      <h1>Assistants Communication</h1>
+      <p class="intro">
+        Pendant mon alternance dans une entreprise greentech, j'ai créé plusieurs assistants ChatGPT personnalisés pour l'équipe communication : pour produire plus vite, avec une cohérence de ton, sans réinventer la roue à chaque contenu.
+      </p>
+    </div>
+
+    <!-- Étude de cas -->
+
+    <div class="etude-section">
+      <h2>Le contexte</h2>
+      <p>
+        Cool Roof est une entreprise spécialisée dans la peinture réfléchissante pour toitures : une solution qui réduit la chaleur dans les bâtiments et leur consommation d'énergie. L'entreprise communique sur des sujets techniques, sur ses valeurs environnementales, et vers des cibles variées : professionnels du bâtiment, collectivités, grand public.
+      </p>
+      <p>
+        L'équipe communication devait produire régulièrement : des posts LinkedIn, des articles de blog optimisés SEO, des campagnes emailing. Chaque contenu demandait du temps : trouver l'angle, adapter le ton selon la cible, structurer le message. Et recommencer pour le suivant.
+      </p>
+    </div>
+
+    <div class="etude-section">
+      <h2>L'approche</h2>
+      <p>
+        La réponse évidente aurait été : "utilise ChatGPT". Mais ChatGPT sans cadrage, ça produit du générique. Ce qui manquait, c'était la personnalisation : donner à l'outil assez de contexte sur l'entreprise, son ton, ses cibles, ses sujets, pour qu'il produise quelque chose qui ressemble vraiment à Cool Roof et pas à n'importe quelle autre entreprise.
+      </p>
+      <p>
+        J'ai d'abord passé du temps à comprendre comment l'entreprise parlait : relire des contenus existants, identifier les formulations récurrentes, les sujets traités, les angles préférés. Puis j'ai construit les assistants à partir de ces observations, pas l'inverse.
+      </p>
+    </div>
+
+    <div class="etude-section">
+      <h2>Les assistants créés</h2>
+      <p>
+        Chaque assistant a été conçu pour un cas d'usage précis, avec un prompt système adapté et des instructions détaillées.
+      </p>
+
+      <p><strong style="color: var(--blanc);">Assistant LinkedIn</strong><br>
+      Génère des posts adaptés aux différentes cibles (B2B, grand public, recrutement). Connaît le positionnement de l'entreprise, les formats qui fonctionnent sur LinkedIn, et le ton voulu : pédagogique et engageant, pas commercial.</p>
+
+      <p><strong style="color: var(--blanc);">Assistant Blog SEO</strong><br>
+      Rédige des articles de blog optimisés pour le référencement naturel. Intègre les contraintes SEO (structure, densité de mots-clés, balises) tout en maintenant un texte lisible. Adapte le niveau technique selon l'audience visée.</p>
+
+      <p><strong style="color: var(--blanc);">Assistant Emailing</strong><br>
+      Crée des séquences d'emails selon l'objectif : information, fidélisation, nurturing. Gère l'objet, le préheader, le corps et l'appel à l'action.</p>
+    </div>
+
+    <figure class="visuel-projet">
+      <img
+        src="../images/projets/assistant-gpt.png"
+        alt="Les trois assistants GPT créés pour l'équipe communication : Assistant LinkedIn, Assistant Blog SEO, Assistant FAQ"
+        width="1200"
+        height="630"
+        loading="lazy"
+      />
+      <figcaption>Les trois assistants GPT personnalisés déployés pour l'équipe communication</figcaption>
+    </figure>
+
+    <div class="etude-section">
+      <h2>Ce que ça a changé</h2>
+      <p>
+        L'équipe a pu réduire significativement le temps passé à la rédaction, tout en maintenant une cohérence de ton sur tous les canaux. Les assistants ne remplacent pas le jugement humain. L'équipe relit, ajuste, valide. Mais ils suppriment la partie la plus chronophage : la page blanche et la première structure.
+      </p>
+      <p>
+        Ce qui m'a frappé, c'est que l'adoption a été rapide. Pas parce que les assistants étaient "impressionnants", mais parce qu'ils étaient calibrés. Quand un outil produit quelque chose qui ressemble à ce que tu aurais écrit toi-même, tu l'utilises vraiment.
+      </p>
+    </div>
+
+    <div class="etude-section">
+      <h2>Ce que j'ai appris</h2>
+      <p>
+        Un assistant ChatGPT utile, ce n'est pas un prompt de deux lignes. C'est un brief détaillé : qui est l'entreprise, comment elle parle, ce qu'elle ne dit pas, à qui elle s'adresse. Plus le contexte est riche, meilleur est le résultat.
+      </p>
+      <p>
+        J'ai aussi appris à documenter les assistants pour que d'autres puissent les faire évoluer sans moi. Un outil qui ne peut être utilisé que par celui qui l'a construit n'est pas un vrai outil.
+      </p>
+    </div>
+
+    <!-- Stack -->
+    <div class="stack-section">
+      <h2>Stack & outils</h2>
+      <div class="stack">
+        <span class="pill">ChatGPT (GPTs)</span>
+        <span class="pill">Prompt engineering</span>
+        <span class="pill">Stratégie éditoriale</span>
+        <span class="pill">SEO</span>
+        <span class="pill">LinkedIn</span>
+        <span class="pill">Email marketing</span>
+      </div>
+    </div>
+
+    <!-- Retour bas de page -->
+    <div class="retour-bas">
+      <a href="../index.html#projets" class="retour">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M10.5 19.5L3 12m0 0l7.5-7.5M3 12h18" />
+        </svg>
+        Retour au portfolio
+      </a>
+    </div>
+
+  </main>
+
+  <footer>
+    <p>© 2026 Anne-Cécile Le Dain — Fait avec curiosité et beaucoup d'itérations.</p>
+  </footer>
+
+  <script src="../script.js"></script>
+</body>
+</html>

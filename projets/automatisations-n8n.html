@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Automatisations n8n — Anne-Cécile Le Dain</title>
+  <meta name="description" content="Étude de cas : formation et pratique de l'automatisation de workflows avec n8n." />
+  <link rel="stylesheet" href="../style.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+</head>
+<body>
+
+  <!-- ===== NAVIGATION ===== -->
+  <nav aria-label="Navigation principale">
+    <a href="../index.html" class="nav-logo">Anne-Cécile <span>Le Dain</span></a>
+    <ul class="nav-links" role="list">
+      <li><a href="../index.html#a-propos">À propos</a></li>
+      <li><a href="../index.html#competences">Compétences</a></li>
+      <li><a href="../index.html#projets">Projets</a></li>
+      <li><a href="../index.html#contact">Contact</a></li>
+    </ul>
+    <button class="nav-toggle" aria-label="Ouvrir le menu" aria-expanded="false">
+      <span></span><span></span><span></span>
+    </button>
+  </nav>
+
+  <!-- ===== CONTENU ===== -->
+  <main class="container projet-page">
+
+    <!-- Retour -->
+    <a href="../index.html#projets" class="retour">
+      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M10.5 19.5L3 12m0 0l7.5-7.5M3 12h18" />
+      </svg>
+      Retour au portfolio
+    </a>
+
+    <!-- Hero du projet -->
+    <div class="projet-hero">
+      <div class="projet-hero-meta">
+        <span class="tag-statut tag-competences">● Compétences acquises</span>
+        <span class="label">n8n · API · Automatisation</span>
+      </div>
+      <h1>Automatisations n8n</h1>
+      <p class="intro">
+        n8n est l'outil qui a changé ma façon de voir ce qu'on peut faire sans coder. Une formation, des dizaines de workflows construits, et une compétence que j'applique directement sur mes projets.
+      </p>
+    </div>
+
+    <!-- Étude de cas -->
+
+    <div class="etude-section">
+      <h2>Pourquoi n8n</h2>
+      <p>
+        Quand j'ai commencé à m'intéresser à l'IA opérationnelle, j'ai vite compris qu'un modèle de langage seul ne suffit pas. GPT peut analyser et générer, mais pour qu'une tâche soit vraiment automatisée, il faut connecter des systèmes entre eux : recevoir un message, appeler une API, traiter des données, écrire dans une base, envoyer une réponse.
+      </p>
+      <p>
+        C'est là que n8n entre en jeu. C'est un outil d'automatisation visuel : on construit des workflows en connectant des briques entre elles. Pas besoin d'écrire un serveur complet. Et contrairement aux outils plus clé-en-main comme Zapier, n8n permet de faire de la logique complexe, d'écrire du JavaScript quand c'est nécessaire, et de vraiment contrôler ce qui se passe.
+      </p>
+    </div>
+
+    <div class="etude-section">
+      <h2>La formation</h2>
+      <p>
+        J'ai suivi une formation structurée sur n8n, pas juste des tutoriels YouTube. L'objectif : comprendre la logique des workflows, maîtriser les briques fondamentales, et être capable de construire quelque chose de fiable en conditions réelles.
+      </p>
+      <p>
+        Ce qui m'a le plus aidé, c'est de ne pas rester sur les exercices de formation. À chaque notion apprise, j'ai cherché un problème réel où l'appliquer. C'est la différence entre "comprendre" et "savoir faire".
+      </p>
+    </div>
+
+    <figure class="visuel-projet">
+      <img src="../images/projets/n8n-workflow-4.png" alt="Création d'un agent via Telegram" loading="lazy" />
+    </figure>
+
+    <figure class="visuel-projet">
+      <img src="../images/projets/n8n-workflow-1.png" alt="Automatisation d'une tâche client" loading="lazy" />
+    </figure>
+
+    <figure class="visuel-projet">
+      <img src="../images/projets/n8n-workflow-2.png" alt="Workflow de traitement de données" loading="lazy" />
+    </figure>
+
+    <figure class="visuel-projet">
+      <img src="../images/projets/n8n-workflow-3.png" alt="Création d'un guide tutoriel — résumé" loading="lazy" />
+    </figure>
+
+    <div class="etude-section">
+      <h2>Ce que je sais faire avec n8n</h2>
+
+      <p><strong style="color: var(--blanc);">Connexions API</strong><br>
+      Connecter des services entre eux : OpenAI, Google Sheets, Telegram, et d'autres. Gérer l'authentification, les formats de données, les erreurs.</p>
+
+      <p><strong style="color: var(--blanc);">Logique conditionnelle</strong><br>
+      Créer des workflows qui prennent des décisions, selon le contenu d'un message, une valeur dans un tableau, un statut renvoyé par une API.</p>
+
+      <p><strong style="color: var(--blanc);">Traitement de données</strong><br>
+      Transformer, filtrer, enrichir des données en cours de workflow. Utiliser du JavaScript pour les transformations que les briques standard ne couvrent pas.</p>
+
+      <p><strong style="color: var(--blanc);">Automatisations avec IA</strong><br>
+      Intégrer des appels à GPT ou Gemini dans un workflow plus large, pour que l'IA soit une étape parmi d'autres, pas une boîte noire isolée.</p>
+    </div>
+
+    <div class="etude-section">
+      <h2>Application directe : l'Inventaire Vocal</h2>
+      <p>
+        Le projet Inventaire Vocal est entièrement construit sur n8n. C'est là que j'ai mis en pratique tout ce que j'avais appris : connexion Telegram, appels Whisper et GPT, traitement des données produits, export Google Sheets. Un workflow de plus de 15 étapes, testé et débuggé jusqu'à ce qu'il tourne de façon fiable.
+      </p>
+      <p>
+        C'est ce genre de projet qui ancre vraiment une compétence. On peut regarder cent tutoriels, rien ne remplace le moment où on est bloqué pendant deux heures sur un problème de format JSON et qu'on finit par trouver.
+      </p>
+    </div>
+
+    <div class="etude-section">
+      <h2>Ce que j'ai appris</h2>
+      <p>
+        L'automatisation, c'est d'abord de la rigueur. Un workflow mal conçu qui échoue silencieusement est pire qu'une erreur visible. J'ai appris à gérer les cas d'erreur, à ajouter des logs, à tester chaque brique indépendamment avant de tout assembler.
+      </p>
+      <p>
+        J'ai aussi compris que n8n n'est pas une solution à tout. Certaines tâches sont plus simples à faire autrement. Savoir <em>quand</em> automatiser et <em>quand</em> ne pas le faire est une compétence en soi.
+      </p>
+    </div>
+
+    <!-- Stack -->
+    <div class="stack-section">
+      <h2>Stack & outils</h2>
+      <div class="stack">
+        <span class="pill">n8n</span>
+        <span class="pill">API REST</span>
+        <span class="pill">JavaScript</span>
+        <span class="pill">JSON</span>
+        <span class="pill">Webhooks</span>
+        <span class="pill">OpenAI API</span>
+        <span class="pill">Google Sheets API</span>
+        <span class="pill">Telegram Bot API</span>
+      </div>
+    </div>
+
+    <!-- Retour bas de page -->
+    <div class="retour-bas">
+      <a href="../index.html#projets" class="retour">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M10.5 19.5L3 12m0 0l7.5-7.5M3 12h18" />
+        </svg>
+        Retour au portfolio
+      </a>
+    </div>
+
+  </main>
+
+  <footer>
+    <p>© 2026 Anne-Cécile Le Dain — Fait avec curiosité et beaucoup d'itérations.</p>
+  </footer>
+
+  <script src="../script.js"></script>
+</body>
+</html>

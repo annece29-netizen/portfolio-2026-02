@@ -1,0 +1,573 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Inventaire Vocal — Anne-Cécile Le Dain</title>
+  <meta name="description" content="Étude de cas : un outil d'inventaire vocal pour la restauration, construit avec n8n et l'API OpenAI." />
+  <link rel="stylesheet" href="../style.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+</head>
+<body>
+
+  <!-- ===== NAVIGATION ===== -->
+  <nav aria-label="Navigation principale">
+    <a href="../index.html" class="nav-logo">Anne-Cécile <span>Le Dain</span></a>
+    <ul class="nav-links" role="list">
+      <li><a href="../index.html#a-propos">À propos</a></li>
+      <li><a href="../index.html#competences">Compétences</a></li>
+      <li><a href="../index.html#projets">Projets</a></li>
+      <li><a href="../index.html#contact">Contact</a></li>
+    </ul>
+    <button class="nav-toggle" aria-label="Ouvrir le menu" aria-expanded="false">
+      <span></span><span></span><span></span>
+    </button>
+  </nav>
+
+  <!-- ===== CONTENU ===== -->
+  <main class="container projet-page">
+
+    <!-- Retour -->
+    <a href="../index.html#projets" class="retour">
+      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M10.5 19.5L3 12m0 0l7.5-7.5M3 12h18" />
+      </svg>
+      Retour au portfolio
+    </a>
+
+    <!-- Hero du projet -->
+    <div class="projet-hero">
+      <div class="projet-hero-meta">
+        <span class="tag-statut tag-test">● En test réel</span>
+        <span class="label">n8n · OpenAI · Telegram · Google Sheets</span>
+      </div>
+      <h1>Inventaire Vocal</h1>
+      <p class="intro">
+        Un outil qui permet à un traiteur de dicter son inventaire à voix haute sur Telegram, et de recevoir en retour un export Google Sheets structuré, avec les prix, en moins de 15 secondes.
+      </p>
+    </div>
+
+    <!-- Étude de cas -->
+
+    <div class="etude-section">
+      <h2>Le contexte</h2>
+      <p>
+        En restauration, l'inventaire est une tâche qu'on fait souvent, qu'on n'aime pas faire, et qu'on fait quand même parce qu'on ne peut pas s'en passer. C'est long, répétitif, sujet aux erreurs. Il faut ouvrir un fichier, retrouver les bons onglets, saisir les quantités une à une, vérifier les prix fournisseurs - et recommencer à chaque session.
+      </p>
+      <p>
+        Le problème que j'ai voulu résoudre est simple : et si on pouvait dicter l'inventaire comme on compte à voix haute, et laisser la machine faire le reste ?
+      </p>
+    </div>
+
+    <div class="etude-section">
+      <h2>L'approche</h2>
+      <p>
+        J'ai commencé par cartographier ce que fait un inventaire manuellement, étape par étape : on compte, on note, on cherche le produit dans un catalogue, on récupère le prix, on entre tout dans une feuille. Autant d'étapes qui peuvent être automatisées, à condition de bien définir les règles.
+      </p>
+      <p>
+        La vraie difficulté n'était pas forcément la transcription, l'IA s'en charge très bien. C'était ce qu'on appelle le <em>matching sémantique</em> : quand quelqu'un dit "mayo", il peut vouloir dire mayonnaise. Mais "maillot" aussi se prononce presque pareil. Sans contexte, impossible de trancher.
+      </p>
+	  <p>
+	    La solution : donner ce contexte en amont. Le prompt système précise qu'on est dans le domaine de la restauration, et le cadencier (la liste des produits réels utilisés) est fourni au modèle avant qu'il commence à matcher. L'IA ne cherche pas dans le dictionnaire. Elle cherche dans ce catalogue précis, pour ce type d'établissement. "Mayo" devient donc automatiquement mayonnaise, parce que maillot n'est pas dans le cadencier d'un restaurant.
+	  </p>
+	  <p>
+	    C'est ce cadrage initial qui rend le système fiable. Sans lui, le taux d'erreur serait bien plus élevé. Avec lui, on atteint 90 à 95 % de matching automatique réussi.
+	  </p>
+      <p>
+        J'ai construit la solution en plusieurs itérations, en testant chaque étape avant de passer à la suivante.
+      </p>
+    </div>
+
+    <!-- Visuel Telegram -->
+    <figure class="visuel-projet">
+      <img
+        src="../images/projets/inventaire-telegram.png"
+        alt="Exemple de message vocal envoyé sur Telegram pour déclencher l'inventaire"
+        loading="lazy"
+      />
+      <figcaption>L'utilisateur envoie un message vocal ou texte sur Telegram</figcaption>
+    </figure>
+
+    <div class="etude-section">
+      <h2>La solution construite</h2>
+      <p>
+        L'architecture finale suit ce chemin : le restaurateur envoie un message vocal (ou texte) sur un bot Telegram. Le message est transcrit par l'IA. Puis elle structure le résultat en JSON propre et fait ensuite le matching sémantique avec le catalogue produits (+500 références, plusieurs fournisseurs). Le workflow enrichit chaque ligne avec les prix correspondants, puis exporte tout dans Google Sheets, dans un onglet mensuel créé automatiquement.
+      </p>
+      <p>
+        Tout ça tourne dans n8n, un outil d'automatisation qui permet de connecter des services entre eux sans avoir besoin d'un serveur dédié. Chaque étape est une brique que j'ai testée indépendamment avant de les assembler.
+      </p>
+    </div>
+
+    <!-- Visuel workflow -->
+    <figure class="visuel-projet">
+      <img
+        src="../images/projets/inventaire-workflow.png"
+        alt="Le workflow n8n complet — de la réception du message Telegram à l'export Google Sheets"
+        loading="lazy"
+      />
+      <figcaption>Le workflow n8n — de la réception du message à l'export Google Sheets</figcaption>
+    </figure>
+
+    <div class="etude-section">
+      <h2>Ce que ça donne</h2>
+      <p>
+        Les premiers tests sont encourageants. Le système reconnaît automatiquement 90 à 95 % des produits dictés, sans intervention humaine. Le reste est marqué pour révision, avec un indicateur visuel dans le Sheets. Le traitement complet prend moins de 15 secondes.
+      </p>
+
+      <div class="chiffres-cles">
+        <div class="chiffre-item">
+          <span class="chiffre-valeur">90–95%</span>
+          <span class="chiffre-label">de matching automatique réussi</span>
+        </div>
+        <div class="chiffre-item">
+          <span class="chiffre-valeur">&lt; 15s</span>
+          <span class="chiffre-label">du message vocal à l'export Sheets</span>
+        </div>
+        <div class="chiffre-item">
+          <span class="chiffre-valeur">+1h</span>
+          <span class="chiffre-label">de temps manuel économisé par session</span>
+        </div>
+        <div class="chiffre-item">
+          <span class="chiffre-valeur">+500</span>
+          <span class="chiffre-label">références produits dans le catalogue</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Mockup Google Sheets -->
+    <style>
+      /* ── MOCKUP GOOGLE SHEETS — classes préfixées mk- ── */
+      .mk-window {
+        width: 100%; max-width: 1020px; margin: 2.5rem auto;
+        border-radius: 12px; overflow: hidden;
+        background: #1b1626;
+        border: 1px solid rgba(199,154,153,.2);
+        box-shadow: 0 0 0 1px rgba(227,235,242,.04), 0 24px 60px rgba(0,0,0,.55), 0 4px 16px rgba(0,0,0,.3);
+      }
+      .mk-chrome {
+        background: #322b42; padding: 9px 14px;
+        display: flex; align-items: center; gap: 12px;
+        border-bottom: 1px solid rgba(199,154,153,.12);
+      }
+      .mk-dots { display: flex; gap: 6px; }
+      .mk-dot { width: 11px; height: 11px; border-radius: 50%; opacity: .7; }
+      .mk-dot:nth-child(1) { background: #ff5f57; }
+      .mk-dot:nth-child(2) { background: #ffbd2e; }
+      .mk-dot:nth-child(3) { background: #28c840; }
+      .mk-url-bar {
+        flex: 1; background: #1b1626;
+        border: 1px solid rgba(227,235,242,.1); border-radius: 6px;
+        padding: 4px 12px; font-size: 11.5px; color: rgba(227,235,242,.55);
+        display: flex; align-items: center; gap: 5px;
+      }
+      .mk-url-lock { color: #52c267; font-size: 10px; }
+      .mk-sheets-top {
+        background: #322b42; padding: 8px 16px 0;
+        border-bottom: 1px solid rgba(227,235,242,.07);
+      }
+      .mk-sheets-title-row {
+        display: flex; align-items: center; gap: 9px; margin-bottom: 5px;
+      }
+      .mk-sheets-icon {
+        width: 28px; height: 28px;
+        background: linear-gradient(135deg, #1fa463, #0c7a49);
+        border-radius: 5px; display: grid; place-items: center;
+        font-size: 13px; flex-shrink: 0;
+      }
+      .mk-sheets-name { font-size: 15px; font-weight: 500; color: #f0ece8; font-family: 'DM Sans', sans-serif; }
+      .mk-sheets-saved { margin-left: auto; font-size: 11px; color: rgba(227,235,242,.55); }
+      .mk-sheets-menu { display: flex; gap: 1px; padding-bottom: 5px; }
+      .mk-sheets-menu span {
+        font-size: 12px; color: rgba(227,235,242,.55);
+        padding: 3px 9px; border-radius: 4px; cursor: default;
+      }
+      .mk-body {
+        display: grid; grid-template-columns: 1fr 300px; min-height: 0;
+      }
+      .mk-table-side { border-right: 1px solid rgba(199,154,153,.14); overflow: hidden; }
+      .mk-banner {
+        background: #3d3452; padding: 10px 18px;
+        display: flex; align-items: center; justify-content: space-between;
+        border-bottom: 1px solid rgba(199,154,153,.18);
+      }
+      .mk-banner-title { font-size: 13px; font-weight: 600; color: #f0ece8; font-family: 'DM Sans', sans-serif; }
+      .mk-banner-sub { font-size: 10.5px; color: rgba(227,235,242,.55); margin-top: 2px; }
+      .mk-banner-badges { display: flex; gap: 7px; }
+      .mk-bbadge {
+        background: rgba(199,154,153,.18); color: #c79a99;
+        border: 1px solid rgba(199,154,153,.3);
+        padding: 3px 11px; border-radius: 20px;
+        font-size: 10.5px; font-weight: 600;
+      }
+      .mk-tbl-wrap { overflow-x: auto; }
+      .mk-tbl { width: 100%; border-collapse: collapse; font-size: 12px; }
+      .mk-tbl thead tr { background: #322b42; border-bottom: 1px solid rgba(199,154,153,.2); }
+      .mk-tbl th {
+        padding: 8px 12px; text-align: left;
+        font-size: 10px; font-weight: 700; color: #c79a99;
+        text-transform: uppercase; letter-spacing: .8px; white-space: nowrap;
+      }
+      .mk-tbl th.c, .mk-tbl td.c { text-align: center; }
+      .mk-tbl th.r, .mk-tbl td.r { text-align: right; }
+      .mk-tbl tbody tr {
+        opacity: 0; transform: translateX(-6px);
+        animation: mkRowIn .35s ease forwards;
+        border-bottom: 1px solid rgba(227,235,242,.05);
+      }
+      @keyframes mkRowIn { to { opacity: 1; transform: translateX(0); } }
+      .mk-tbl tbody tr:nth-child(1) { animation-delay: .05s; }
+      .mk-tbl tbody tr:nth-child(2) { animation-delay: .12s; }
+      .mk-tbl tbody tr:nth-child(3) { animation-delay: .19s; }
+      .mk-tbl tbody tr:nth-child(4) { animation-delay: .26s; }
+      .mk-tbl tbody tr:nth-child(5) { animation-delay: .33s; }
+      .mk-tbl tbody tr:nth-child(6) { animation-delay: .40s; }
+      .mk-tbl tbody tr:nth-child(7) { animation-delay: .47s; }
+      .mk-tbl td { padding: 8px 12px; color: #e3ebf2; white-space: nowrap; }
+      .mk-tbl tbody tr:nth-child(even) td { background: rgba(227,235,242,.08); }
+      .mk-row-review td { background: rgba(245,166,35,.1) !important; }
+      .mk-row-review td:first-child { border-left: 2px solid #f5a623; }
+      .mk-row-failed td { background: rgba(232,84,84,.1) !important; }
+      .mk-row-failed td:first-child { border-left: 2px solid #e85454; }
+      .mk-row-total td {
+        background: #3d3452 !important; border-top: 1px solid rgba(199,154,153,.3);
+        font-weight: 600; color: #f0ece8; padding: 10px 12px;
+      }
+      .mk-sup { font-size: 10px; color: rgba(227,235,242,.55); font-weight: 400; }
+      .mk-pname { font-weight: 500; color: #f0ece8; }
+      .mk-p-unknown { font-style: italic; color: rgba(227,235,242,.35); }
+      .mk-amt { font-weight: 600; color: #f0ece8; }
+      .mk-amt-zero { color: rgba(227,235,242,.2); }
+      .mk-total-amt { color: #c79a99; font-size: 14px; }
+      .mk-badge {
+        display: inline-flex; align-items: center; gap: 3px;
+        padding: 2px 8px; border-radius: 20px;
+        font-size: 10px; font-weight: 700; letter-spacing: .2px; white-space: nowrap;
+      }
+      .mk-b-auto { background: rgba(82,194,103,.1); color: #52c267; border: 1px solid rgba(82,194,103,.25); }
+      .mk-b-review {
+        background: rgba(245,166,35,.1); color: #f5a623; border: 1px solid rgba(245,166,35,.3);
+        animation: mkPulseR 2s ease-in-out infinite;
+      }
+      .mk-b-failed {
+        background: rgba(232,84,84,.1); color: #e85454; border: 1px solid rgba(232,84,84,.3);
+        animation: mkPulseF 2s ease-in-out infinite;
+      }
+      @keyframes mkPulseR {
+        0%,100% { box-shadow: 0 0 0 0 rgba(245,166,35,0); }
+        50% { box-shadow: 0 0 0 4px rgba(245,166,35,.15); }
+      }
+      @keyframes mkPulseF {
+        0%,100% { box-shadow: 0 0 0 0 rgba(232,84,84,0); }
+        50% { box-shadow: 0 0 0 4px rgba(232,84,84,.15); }
+      }
+      .mk-cf { display: flex; align-items: center; gap: 6px; justify-content: center; }
+      .mk-cf-bar { width: 44px; height: 4px; background: rgba(227,235,242,.1); border-radius: 2px; overflow: hidden; }
+      .mk-cf-fill { height: 100%; border-radius: 2px; width: 0; transition: width 1s cubic-bezier(.4,0,.2,1); }
+      .mk-cf-hi { background: #52c267; }
+      .mk-cf-mid { background: #f5a623; }
+      .mk-cf-lo { background: #e85454; }
+      .mk-cf-val { font-size: 10.5px; color: rgba(227,235,242,.55); min-width: 26px; }
+      .mk-anno-side { background: #1b1626; display: flex; flex-direction: column; }
+      .mk-anno-header {
+        padding: 10px 16px 8px; font-size: 10px; font-weight: 700;
+        text-transform: uppercase; letter-spacing: .9px; color: #c79a99;
+        border-bottom: 1px solid rgba(199,154,153,.14); background: #322b42;
+      }
+      .mk-callout {
+        padding: 14px 16px; border-left: 3px solid;
+        opacity: 0; transform: translateX(10px);
+        animation: mkCallIn .4s ease forwards;
+        flex: 1; display: flex; flex-direction: column; gap: 8px;
+      }
+      .mk-callout + .mk-callout { border-top: 1px solid rgba(227,235,242,.06); }
+      .mk-c-review { border-left-color: #f5a623; background: rgba(245,166,35,.04); animation-delay: .65s; }
+      .mk-c-failed { border-left-color: #e85454; background: rgba(232,84,84,.04); animation-delay: .8s; }
+      @keyframes mkCallIn { to { opacity: 1; transform: translateX(0); } }
+      .mk-c-icon { font-size: 18px; line-height: 1; }
+      .mk-c-title { font-size: 11.5px; font-weight: 700; line-height: 1.3; }
+      .mk-c-review .mk-c-title { color: #f5a623; }
+      .mk-c-failed .mk-c-title { color: #e85454; }
+      .mk-c-text { font-size: 11px; color: rgba(227,235,242,.55); line-height: 1.55; }
+      .mk-c-text strong { color: #e3ebf2; font-weight: 600; }
+      .mk-tags { display: flex; flex-wrap: wrap; gap: 5px; margin-top: 4px; }
+      .mk-tag { padding: 2px 9px; border-radius: 20px; font-size: 10px; font-weight: 600; border: 1px solid; }
+      .mk-t-chosen { border-color: rgba(245,166,35,.4); color: #f5a623; background: rgba(245,166,35,.08); }
+      .mk-t-alt { border-color: rgba(82,194,103,.35); color: #52c267; background: rgba(82,194,103,.08); }
+      .mk-t-missing { border-color: rgba(232,84,84,.35); color: #e85454; background: rgba(232,84,84,.08); text-decoration: line-through; opacity: .6; }
+      .mk-footer {
+        background: #322b42; padding: 8px 18px;
+        display: flex; align-items: center; gap: 20px;
+        border-top: 1px solid rgba(227,235,242,.07); flex-wrap: wrap;
+      }
+      .mk-stat { display: flex; align-items: center; gap: 5px; font-size: 11px; color: rgba(227,235,242,.55); }
+      .mk-sdot { width: 7px; height: 7px; border-radius: 50%; }
+      .mk-sdot-auto { background: #52c267; }
+      .mk-sdot-review { background: #f5a623; }
+      .mk-sdot-failed { background: #e85454; }
+      .mk-tab-bar {
+        background: #322b42; padding: 0 14px;
+        display: flex; align-items: flex-end;
+        border-top: 1px solid rgba(199,154,153,.1);
+      }
+      .mk-tab {
+        padding: 6px 16px; font-size: 11.5px; font-weight: 500;
+        color: rgba(227,235,242,.55); background: #1b1626;
+        border-radius: 7px 7px 0 0;
+        border: 1px solid rgba(199,154,153,.18); border-bottom: none; margin-right: 3px;
+      }
+      @media (max-width: 700px) {
+        .mk-body { grid-template-columns: 1fr; }
+        .mk-anno-side { border-right: none; border-top: 1px solid rgba(199,154,153,.14); }
+      }
+    </style>
+
+    <figure style="margin: 2.5rem 0;">
+      <div class="mk-window">
+
+        <!-- Chrome -->
+        <div class="mk-chrome">
+          <div class="mk-dots">
+            <div class="mk-dot"></div><div class="mk-dot"></div><div class="mk-dot"></div>
+          </div>
+          <div class="mk-url-bar">
+            <span class="mk-url-lock">🔒</span>
+            docs.google.com/spreadsheets/inventaire-vocal/2026
+          </div>
+        </div>
+
+        <!-- Sheets header -->
+        <div class="mk-sheets-top">
+          <div class="mk-sheets-title-row">
+            <div class="mk-sheets-icon">📊</div>
+            <span class="mk-sheets-name">Inventaire du 19-02-2026</span>
+            <span class="mk-sheets-saved">✓ Enregistré</span>
+          </div>
+          <div class="mk-sheets-menu">
+            <span>Fichier</span><span>Modifier</span><span>Affichage</span>
+            <span>Insertion</span><span>Format</span><span>Données</span>
+          </div>
+        </div>
+
+        <!-- Body : table + annotations -->
+        <div class="mk-body">
+
+          <!-- TABLE -->
+          <div class="mk-table-side">
+            <div class="mk-banner">
+              <div>
+                <div class="mk-banner-title">📦 Inventaire — 19 février 2026</div>
+                <div class="mk-banner-sub">Inventaire Vocal &nbsp;·&nbsp; Traitement : 11 s</div>
+              </div>
+              <div class="mk-banner-badges">
+                <span class="mk-bbadge">7 produits</span>
+                <span class="mk-bbadge">137,77 €</span>
+              </div>
+            </div>
+            <div class="mk-tbl-wrap">
+              <table class="mk-tbl">
+                <thead>
+                  <tr>
+                    <th class="c">Flag</th>
+                    <th>Produit</th>
+                    <th class="c">Qté</th>
+                    <th class="c">U.</th>
+                    <th class="r">Prix</th>
+                    <th class="r">Montant</th>
+                    <th class="c">Fiabilité</th>
+                    <th class="c">Statut</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td class="c"></td>
+                    <td><div class="mk-sup">FOURNISSEUR A</div><div class="mk-pname">Jus de veau lié 900 g</div></td>
+                    <td class="c">3</td><td class="c">kg</td>
+                    <td class="r">11,25 €</td>
+                    <td class="r mk-amt">33,75 €</td>
+                    <td class="c"><div class="mk-cf"><div class="mk-cf-bar"><div class="mk-cf-fill mk-cf-hi" data-w="95"></div></div><span class="mk-cf-val">0.95</span></div></td>
+                    <td class="c"><span class="mk-badge mk-b-auto">✓ auto</span></td>
+                  </tr>
+                  <tr>
+                    <td class="c"></td>
+                    <td><div class="mk-sup">FOURNISSEUR B</div><div class="mk-pname">Fond de volaille 1 kg</div></td>
+                    <td class="c">5</td><td class="c">kg</td>
+                    <td class="r">8,50 €</td>
+                    <td class="r mk-amt">42,50 €</td>
+                    <td class="c"><div class="mk-cf"><div class="mk-cf-bar"><div class="mk-cf-fill mk-cf-hi" data-w="91"></div></div><span class="mk-cf-val">0.91</span></div></td>
+                    <td class="c"><span class="mk-badge mk-b-auto">✓ auto</span></td>
+                  </tr>
+                  <tr>
+                    <td class="c"></td>
+                    <td><div class="mk-sup">FOURNISSEUR A</div><div class="mk-pname">Chorizo tranché</div></td>
+                    <td class="c">2</td><td class="c">kg</td>
+                    <td class="r">11,58 €</td>
+                    <td class="r mk-amt">23,16 €</td>
+                    <td class="c"><div class="mk-cf"><div class="mk-cf-bar"><div class="mk-cf-fill mk-cf-hi" data-w="98"></div></div><span class="mk-cf-val">0.98</span></div></td>
+                    <td class="c"><span class="mk-badge mk-b-auto">✓ auto</span></td>
+                  </tr>
+                  <tr class="mk-row-review">
+                    <td class="c">⚠️</td>
+                    <td><div class="mk-sup">— à vérifier</div><div class="mk-pname">Oeuf entier</div></td>
+                    <td class="c">12</td><td class="c">pce</td>
+                    <td class="r">0,18 €</td>
+                    <td class="r mk-amt">2,16 €</td>
+                    <td class="c"><div class="mk-cf"><div class="mk-cf-bar"><div class="mk-cf-fill mk-cf-mid" data-w="67"></div></div><span class="mk-cf-val">0.67</span></div></td>
+                    <td class="c"><span class="mk-badge mk-b-review">⚠ review</span></td>
+                  </tr>
+                  <tr>
+                    <td class="c"></td>
+                    <td><div class="mk-sup">FOURNISSEUR B</div><div class="mk-pname">Crème liquide 35 %</div></td>
+                    <td class="c">4</td><td class="c">L</td>
+                    <td class="r">3,20 €</td>
+                    <td class="r mk-amt">12,80 €</td>
+                    <td class="c"><div class="mk-cf"><div class="mk-cf-bar"><div class="mk-cf-fill mk-cf-hi" data-w="93"></div></div><span class="mk-cf-val">0.93</span></div></td>
+                    <td class="c"><span class="mk-badge mk-b-auto">✓ auto</span></td>
+                  </tr>
+                  <tr>
+                    <td class="c"></td>
+                    <td><div class="mk-sup">FOURNISSEUR A</div><div class="mk-pname">Beurre doux</div></td>
+                    <td class="c">3</td><td class="c">kg</td>
+                    <td class="r">7,80 €</td>
+                    <td class="r mk-amt">23,40 €</td>
+                    <td class="c"><div class="mk-cf"><div class="mk-cf-bar"><div class="mk-cf-fill mk-cf-hi" data-w="94"></div></div><span class="mk-cf-val">0.94</span></div></td>
+                    <td class="c"><span class="mk-badge mk-b-auto">✓ auto</span></td>
+                  </tr>
+                  <tr class="mk-row-failed">
+                    <td class="c">❌</td>
+                    <td><div class="mk-sup">— non trouvé</div><div class="mk-pname mk-p-unknown">plaque de saumon</div></td>
+                    <td class="c">2</td><td class="c" style="color:rgba(227,235,242,.2);">—</td>
+                    <td class="r mk-amt-zero">—</td>
+                    <td class="r mk-amt-zero">0,00 €</td>
+                    <td class="c"><div class="mk-cf"><div class="mk-cf-bar"><div class="mk-cf-fill mk-cf-lo" data-w="0"></div></div><span class="mk-cf-val">0.00</span></div></td>
+                    <td class="c"><span class="mk-badge mk-b-failed">✗ failed</span></td>
+                  </tr>
+                  <tr class="mk-row-total">
+                    <td colspan="5" style="font-size:10px;opacity:.6;text-transform:uppercase;letter-spacing:.8px;">Total inventaire</td>
+                    <td class="r"><span class="mk-total-amt" id="mk-counter">137,77 €</span></td>
+                    <td colspan="2" style="text-align:center;font-size:10px;opacity:.5;">5 auto · 1 review · 1 failed</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <!-- ANNOTATIONS -->
+          <div class="mk-anno-side">
+            <div class="mk-anno-header">Annotations IA</div>
+            <div class="mk-callout mk-c-review">
+              <div class="mk-c-icon">⚠️</div>
+              <div class="mk-c-title">Ambiguïté — "Oeuf entier"</div>
+              <div class="mk-c-text">L'utilisateur a dit <strong>"oeuf"</strong>. Plusieurs correspondances existent dans le cadencier — l'outil a retenu la plus probable.</div>
+              <div class="mk-tags">
+                <span class="mk-tag mk-t-chosen">⚠ Oeuf entier</span>
+                <span class="mk-tag mk-t-alt">Jaune d'œuf</span>
+                <span class="mk-tag mk-t-alt">Blanc d'œuf</span>
+              </div>
+            </div>
+            <div class="mk-callout mk-c-failed">
+              <div class="mk-c-icon">❌</div>
+              <div class="mk-c-title">Non reconnu — "plaque de saumon"</div>
+              <div class="mk-c-text">Ce libellé n'existe pas dans le cadencier. Des produits proches ont été trouvés mais sans correspondance suffisante.</div>
+              <div class="mk-tags">
+                <span class="mk-tag mk-t-missing">plaque de saumon</span>
+                <span class="mk-tag mk-t-alt">Filet de saumon</span>
+                <span class="mk-tag mk-t-alt">Saumon fumé</span>
+              </div>
+            </div>
+          </div>
+
+        </div><!-- /mk-body -->
+
+        <!-- Footer stats -->
+        <div class="mk-footer">
+          <div class="mk-stat"><div class="mk-sdot mk-sdot-auto"></div>5 matchés automatiquement (71 %)</div>
+          <div class="mk-stat"><div class="mk-sdot mk-sdot-review"></div>1 à vérifier (14 %)</div>
+          <div class="mk-stat"><div class="mk-sdot mk-sdot-failed"></div>1 non reconnu (14 %)</div>
+        </div>
+
+        <!-- Tab bar -->
+        <div class="mk-tab-bar">
+          <div class="mk-tab">📅 février 2026</div>
+        </div>
+
+      </div>
+      <figcaption style="text-align:center; padding: 0.75rem 1rem; font-size: 0.82rem; color: var(--texte-secondaire); font-style: italic;">
+        Résultat dans Google Sheets — produits, quantités, prix, et indicateurs de confiance
+      </figcaption>
+    </figure>
+
+    <script>
+      (function() {
+        window.addEventListener('load', function() {
+          // Barres de confiance
+          setTimeout(function() {
+            document.querySelectorAll('.mk-cf-fill').forEach(function(el) {
+              el.style.width = (el.dataset.w || 0) + '%';
+            });
+          }, 250);
+          // Compteur animé
+          var el = document.getElementById('mk-counter');
+          if (!el) return;
+          var target = 137.77, duration = 950, start = performance.now();
+          setTimeout(function() {
+            function step(now) {
+              var p = Math.min((now - start) / duration, 1);
+              var e = 1 - Math.pow(1 - p, 3);
+              el.textContent = (target * e).toFixed(2).replace('.', ',') + ' €';
+              if (p < 1) requestAnimationFrame(step);
+              else el.textContent = '137,77 €';
+            }
+            requestAnimationFrame(step);
+          }, 750);
+        });
+      })();
+    </script>
+
+    <div class="etude-section">
+      <h2>Ce que j'ai appris</h2>
+      <p>
+        Le matching sémantique est plus difficile qu'il n'y paraît. La première version faisait du simple matching de mots — elle échouait sur "jus d'veau" ou "cuisse de poule". La version actuelle utilise GPT-4o pour comprendre l'intention, pas juste les mots. C'est plus lent, plus cher, mais beaucoup plus fiable.
+      </p>
+      <p>
+        J'ai aussi appris à décomposer un problème complexe en étapes indépendantes. Au lieu d'essayer de tout faire en un seul appel API, j'ai créé des briques spécialisées : une pour la transcription, une pour la structuration, une pour le matching. Chacune peut être testée et améliorée séparément.
+      </p>
+      <p>
+        La prochaine étape : tester avec plusieurs utilisateurs en parallèle, et construire une interface web pour remplacer Telegram.
+      </p>
+    </div>
+
+    <!-- Stack -->
+    <div class="stack-section">
+      <h2>Stack & outils</h2>
+      <div class="stack">
+        <span class="pill">n8n</span>
+        <span class="pill">OpenAI Whisper</span>
+        <span class="pill">GPT-4o Mini</span>
+        <span class="pill">GPT-4o</span>
+        <span class="pill">Telegram Bot API</span>
+        <span class="pill">Google Sheets API</span>
+        <span class="pill">JavaScript</span>
+      </div>
+    </div>
+
+    <!-- Retour bas de page -->
+    <div class="retour-bas">
+      <a href="../index.html#projets" class="retour">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M10.5 19.5L3 12m0 0l7.5-7.5M3 12h18" />
+        </svg>
+        Retour au portfolio
+      </a>
+    </div>
+
+  </main>
+
+  <!-- ===== FOOTER ===== -->
+  <footer>
+    <p>© 2026 Anne-Cécile Le Dain — Fait avec curiosité et beaucoup d'itérations.</p>
+  </footer>
+
+  <script src="../script.js"></script>
+</body>
+</html>
