@@ -823,6 +823,92 @@ footer p {
   border-top: 1px solid rgba(255,255,255,0.08);
 }
 
+/* --- SECTION AVIS --- */
+#avis {
+  background: var(--fond-clair);
+}
+
+.avis-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1.5rem;
+  margin-top: 3rem;
+}
+
+.avis-card {
+  background: var(--fond-card);
+  border: 1px solid rgba(255,255,255,0.07);
+  border-radius: var(--rayon-card);
+  padding: 2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+  transition: all var(--transition);
+}
+
+.avis-card:hover {
+  border-color: rgba(199, 154, 153, 0.25);
+  box-shadow: var(--ombre-hover);
+}
+
+.avis-card-projet {
+  margin-top: 0;
+  margin-bottom: 3.5rem;
+}
+
+.avis-etoiles {
+  color: #f59e0b;
+  font-size: 1rem;
+  letter-spacing: 0.1em;
+}
+
+.avis-card blockquote {
+  font-size: 0.92rem;
+  line-height: 1.8;
+  color: var(--texte);
+  font-style: italic;
+  flex: 1;
+  margin: 0;
+  padding: 0;
+  border: none;
+}
+
+.avis-auteur {
+  display: flex;
+  align-items: center;
+  gap: 0.875rem;
+  padding-top: 1rem;
+  border-top: 1px solid rgba(255,255,255,0.07);
+}
+
+.avis-avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: rgba(199, 154, 153, 0.15);
+  border: 1px solid rgba(199, 154, 153, 0.3);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--rose);
+  flex-shrink: 0;
+}
+
+.avis-auteur strong {
+  display: block;
+  font-size: 0.9rem;
+  color: var(--blanc);
+  font-weight: 600;
+}
+
+.avis-auteur span {
+  display: block;
+  font-size: 0.78rem;
+  color: var(--texte-secondaire);
+}
+
 /* --- MAINTENANCE PAGE --- */
 .maintenance-page {
   min-height: 100vh;
@@ -888,6 +974,10 @@ footer p {
   }
 
   .projets-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .avis-grid {
     grid-template-columns: 1fr;
   }
 }
