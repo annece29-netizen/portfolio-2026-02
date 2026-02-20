@@ -52,7 +52,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
   /* --- Animation d'apparition au scroll (Intersection Observer) --- */
   const animElements = document.querySelectorAll(
-    '.skill-card, .projet-card, .etude-section, .chiffre-item, .contact-lien'
+    '.skill-card, .projet-card, .etude-section, .chiffre-item, .contact-lien, .avis-card'
   );
 
   if (animElements.length > 0 && 'IntersectionObserver' in window) {
