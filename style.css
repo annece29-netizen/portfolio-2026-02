@@ -336,12 +336,15 @@ footer p {
 }
 
 .visuel-projet figcaption {
-  padding: 0.75rem 1rem;
+  padding: 0.75rem 1.25rem;
   background: var(--fond-card);
-  font-size: 0.82rem;
-  color: var(--texte-secondaire);
+  border-top: 1px solid rgba(255,255,255,0.07);
+  font-family: 'Caveat', cursive;
+  font-size: 1.15rem;
+  font-weight: 500;
+  color: var(--blanc);
   text-align: center;
-  font-style: italic;
+  letter-spacing: 0.01em;
 }
 
 /* --- PLACEHOLDER IMAGE --- */
