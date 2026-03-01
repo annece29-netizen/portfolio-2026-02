@@ -906,12 +906,11 @@ footer p {
   position: fixed;
   inset: 0;
   z-index: 1000;
-  background: rgba(10, 8, 15, 0.92);
+  background: rgba(10, 8, 15, 0.95);
   display: none;
   align-items: center;
   justify-content: center;
-  padding: 2rem;
-  cursor: zoom-out;
+  overflow: hidden;
   opacity: 0;
   transition: opacity 0.25s ease;
 }
@@ -920,25 +919,84 @@ footer p {
   opacity: 1;
 }
 
+/* Conteneur qui reçoit transform (zoom + pan) */
+.lightbox-inner {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  transform-origin: center center;
+  transition: transform 0.15s ease;
+  will-change: transform;
+}
+
 .lightbox-overlay img {
-  max-width: min(90vw, 1200px);
-  max-height: 85vh;
+  max-width: 92vw;
+  max-height: 90vh;
   object-fit: contain;
   border-radius: var(--rayon-card);
   box-shadow: 0 24px 80px rgba(0,0,0,0.7);
-  cursor: default;
-  transform: scale(0.95);
-  transition: transform 0.25s ease;
+  user-select: none;
+  pointer-events: none; /* le pan se gère sur l'overlay */
+  opacity: 0;
+  transition: opacity 0.2s ease;
 }
 
 .lightbox-overlay.visible img {
-  transform: scale(1);
+  opacity: 1;
 }
 
+/* Barre d'outils en bas */
+.lightbox-toolbar {
+  position: absolute;
+  bottom: 1.5rem;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: rgba(30, 24, 40, 0.85);
+  border: 1px solid rgba(255,255,255,0.12);
+  border-radius: 99px;
+  padding: 0.4rem 0.75rem;
+  backdrop-filter: blur(8px);
+}
+
+.lightbox-toolbar button {
+  background: none;
+  border: none;
+  color: var(--blanc);
+  font-size: 1.1rem;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: background var(--transition);
+  line-height: 1;
+}
+
+.lightbox-toolbar button:hover {
+  background: rgba(199, 154, 153, 0.2);
+}
+
+.lightbox-zoom-level {
+  font-size: 0.78rem;
+  color: var(--texte-secondaire);
+  min-width: 3rem;
+  text-align: center;
+  font-variant-numeric: tabular-nums;
+}
+
+/* Bouton fermer */
 .lightbox-close {
   position: absolute;
-  top: 1.5rem;
-  right: 1.5rem;
+  top: 1.25rem;
+  right: 1.25rem;
   background: rgba(255,255,255,0.1);
   border: 1px solid rgba(255,255,255,0.15);
   border-radius: 50%;
@@ -952,11 +1010,17 @@ footer p {
   font-size: 1.1rem;
   transition: background var(--transition);
   line-height: 1;
+  z-index: 10;
 }
 
 .lightbox-close:hover {
-  background: rgba(199, 154, 153, 0.25);
+  background: rgba(199, 154, 153, 0.3);
 }
+
+/* Curseur selon état */
+.lightbox-overlay { cursor: grab; }
+.lightbox-overlay.dragging { cursor: grabbing; }
+.lightbox-overlay.zoom-fit { cursor: default; }
 
 /* Curseur zoom sur les images zoomables */
 .visuel-projet img {
@@ -965,7 +1029,7 @@ footer p {
 }
 
 .visuel-projet img:hover {
-  opacity: 0.92;
+  opacity: 0.9;
 }
 
 /* --- MAINTENANCE PAGE --- */
